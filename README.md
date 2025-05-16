@@ -1,1 +1,1 @@
-# plantasia
+# plantasia frontend
