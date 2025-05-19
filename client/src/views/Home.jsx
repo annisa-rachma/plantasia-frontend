@@ -37,6 +37,7 @@ export default function Home() {
     return state.productsReducer.products;
   });
   const dispatch = useDispatch();
+  const [isFiltering, setIsFiltering] = useState(false)
 
   const handleCheckboxChange = (e) => {
     const value = e.target.value;
@@ -75,6 +76,14 @@ export default function Home() {
     fetchData();
   }, [searchParams]);
 
+  useEffect(() => {
+    if(searchParams.toString()) {
+      setIsFiltering(true)
+    } else {
+      setIsFiltering(false)
+    }
+  }, [searchParams]);
+
   return (
     <>
       <div className="grid grid-cols-4 w-[100%] left-0 right-0 mx-auto">
@@ -107,7 +116,7 @@ export default function Home() {
           <div className="md:col-span-1 mx-4  ">
             <div className="border-black border-b-2 pb-1 flex justify-between items-stretch">
               <h1 className="text-xl font-[Kinfolk-Serif-Text] self-end ">Filter</h1>
-              <p className="self-end hover:underline hover:cursor-pointer" onClick={handleClearFilter}>Clear All</p>
+              {isFiltering && <p className="self-end hover:underline hover:cursor-pointer" onClick={handleClearFilter}>Clear All</p>}
             </div>
 
             <form className="">

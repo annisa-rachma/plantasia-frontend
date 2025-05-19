@@ -18,12 +18,11 @@ export default function ProductCard({ product }) {
               onClick={handleScroll}
               src={product.mainImg}
               alt=""
-              className="w-[350px] h-[350px] object-cover"
+              className="w-[350px] h-[350px] object-cover transition-transform duration-300 ease-in-out hover:scale-105"
             />
           </Link>
         </div>
         <div className="grid justify-items-start max-w-[350px]">
-          {/* <div className="mb-4 mt-1">{product.Category.name.toUpperCase()}</div> */}
           <Link to={`/detail/${product.id}`}>
             <div className="mt-1 font-medium overflow-auto">{product.name}</div>
           </Link>
