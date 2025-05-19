@@ -23,9 +23,9 @@ export default function ProductCard({ product }) {
           </Link>
         </div>
         <div className="grid justify-items-start w-[350px]">
-          <div className="mb-4 mt-1">{product.Category.name.toUpperCase()}</div>
+          {/* <div className="mb-4 mt-1">{product.Category.name.toUpperCase()}</div> */}
           <Link to={`/detail/${product.id}`}>
-            <div>{product.name}</div>
+            <div className="mt-1 font-medium">{product.name}</div>
           </Link>
           <div>${product.price}</div>
         </div>

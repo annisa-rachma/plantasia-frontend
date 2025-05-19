@@ -1,1 +1,1 @@
-export const BASE_URL = "https://c1-p3.annisa-rachma.com/admin"
+export const BASE_URL = "http://localhost:3000/admin"

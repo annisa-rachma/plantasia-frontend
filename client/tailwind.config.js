@@ -6,7 +6,7 @@ export default {
   ],
   theme: {
     extend: {backgroundImage: {
-      'parallax': "url('/kinfolk2.jpg')",
+      'parallax': "url('/hero-image.jpg')",
     }},
   },
   plugins: [],
