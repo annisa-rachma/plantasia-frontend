@@ -6,6 +6,7 @@ import { fetchProducts } from "../store/actions/actionCreator";
 import "react-loading-skeleton/dist/skeleton.css";
 import ProductCardSkeleton from "../components/ProductCardSkeleton";
 import { useSearchParams } from "react-router-dom";
+import { AiOutlineCaretDown, AiOutlineCaretUp } from "react-icons/ai";
 
 const plantType = [
   {
@@ -37,7 +38,8 @@ export default function Home() {
     return state.productsReducer.products;
   });
   const dispatch = useDispatch();
-  const [isFiltering, setIsFiltering] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [showPlantType, setShowPlantType] = useState(true);
 
   const handleCheckboxChange = (e) => {
     const value = e.target.value;
@@ -56,8 +58,8 @@ export default function Home() {
   };
 
   const handleClearFilter = () => {
-    setSearchParams('')
-  }
+    setSearchParams("");
+  };
 
   const fetchData = async () => {
     try {
@@ -77,12 +79,16 @@ export default function Home() {
   }, [searchParams]);
 
   useEffect(() => {
-    if(searchParams.toString()) {
-      setIsFiltering(true)
+    if (searchParams.toString()) {
+      setIsFiltering(true);
     } else {
-      setIsFiltering(false)
+      setIsFiltering(false);
     }
   }, [searchParams]);
+
+  const togglePlantType = () => {
+    setShowPlantType((prev) => !prev);
+  };
 
   return (
     <>
@@ -115,35 +121,63 @@ export default function Home() {
         <div className="col-span-4 grid grid-cols-1 md:grid-cols-4 gap-y-10 mx-8 mt-12 ">
           <div className="md:col-span-1 mx-4  ">
             <div className="border-black border-b-2 pb-1 flex justify-between items-stretch">
-              <h1 className="text-xl font-[Kinfolk-Serif-Text] self-end ">Filter</h1>
-              {isFiltering && <p className="self-end hover:underline hover:cursor-pointer" onClick={handleClearFilter}>Clear All</p>}
+              <h1 className="text-xl font-[Kinfolk-Serif-Text] self-end ">
+                Filter
+              </h1>
+              {isFiltering && (
+                <p
+                  className="self-end hover:underline hover:cursor-pointer"
+                  onClick={handleClearFilter}
+                >
+                  Clear All
+                </p>
+              )}
             </div>
 
             <form className="">
               <div className="border-black border-b-2 py-4">
-                <h1 className="text-xl font-[Kinfolk-Serif-Text]">
-                  Plant Type
-                </h1>
-                <div className="flex flex-col gap-1 mt-2">
-                  {plantType.map((type, idx) => {
-                    return (
-                      <div key={idx} className="flex gap-2 items-center">
-                        <input
-                          type="checkbox"
-                          id={type.id}
-                          name="type"
-                          value={type.id}
-                          checked={searchParams
-                            .getAll("type")
-                            .includes(String(type.id))}
-                          onChange={handleCheckboxChange}
-                          className="w-5 h-5  bg-black border-gray-300 focus:-ring-black-500 accent-black "
-                        ></input>
-                        <label htmlFor={type.id}>{type.name}</label>
-                      </div>
-                    );
-                  })}
+                <div
+                  className="flex justify-between items-center hover:cursor-pointer"
+                  onClick={togglePlantType}
+                >
+                  <h1 className="text-xl font-[Kinfolk-Serif-Text]">
+                    Plant Type
+                  </h1>
+                  <span>
+                    {showPlantType ? (
+                      <AiOutlineCaretDown />
+                    ) : (
+                      <AiOutlineCaretUp />
+                    )}
+                  </span>
                 </div>
+                {showPlantType && (
+                  <div className="flex flex-col gap-1 mt-2">
+                    {plantType.map((type, idx) => {
+                      return (
+                        <div key={idx} className="flex gap-2 items-center">
+                          <input
+                            type="checkbox"
+                            id={type.id}
+                            name="type"
+                            value={type.id}
+                            checked={searchParams
+                              .getAll("type")
+                              .includes(String(type.id))}
+                            onChange={handleCheckboxChange}
+                            className="w-5 h-5  bg-black border-gray-300 focus:-ring-black-500 accent-black hover:cursor-pointer"
+                          ></input>
+                          <label
+                            htmlFor={type.id}
+                            className="hover:cursor-pointer"
+                          >
+                            {type.name}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </form>
           </div>
