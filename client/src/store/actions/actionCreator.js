@@ -6,10 +6,10 @@ export function productsFetchSuccess(payload) {
     return {type : PRODUCTS_FETCH, payload : payload}
 }
 
-export function fetchProducts() {
+export function fetchProducts(queryString = "") {
     return async function (dispatch) {
         try {
-          const res = await fetch(BASE_URL + "/products");
+          const res = await fetch(BASE_URL + `/products${queryString}`);
           const data = await res.json();
           if (!res.ok) {
             throw data;
