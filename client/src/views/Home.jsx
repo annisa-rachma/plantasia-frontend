@@ -6,7 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import ProductCardSkeleton from "../components/ProductCardSkeleton";
 import { useSearchParams } from "react-router-dom";
 import FilterSection from "../components/FilterSection";
-import { plantHeight, plantType } from "../store/data/data";
+import { plantHeight, plantType, plantFeature } from "../store/data/data";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,8 +18,11 @@ export default function Home() {
   const [isFiltering, setIsFiltering] = useState(false);
   const [showPlantType, setShowPlantType] = useState(true);
   const [showPlantHeight, setShowPlantHeight] = useState(true);
+  const [showPlantFeature, setShowPlantFeature] = useState(true);
   const selectedType = searchParams.getAll("type");
   const selectedHeight = searchParams.getAll("height");
+  const selectedFeature = searchParams.getAll("feature");
+
 
   const handleCheckboxChange = (e) => {
     const value = e.target.value;
@@ -67,6 +70,9 @@ export default function Home() {
   const togglePlantHeight = () => {
     setShowPlantHeight((prev) => !prev);
   };  
+  const togglePlantFeature = () => {
+    setShowPlantFeature((prev) => !prev);
+  }; 
   
   return (
     <>
@@ -129,6 +135,15 @@ export default function Home() {
                 showSection={showPlantHeight}
                 optionValues={plantHeight}
                 selectedValue={selectedHeight}
+                handleCheckboxChange={handleCheckboxChange}
+              />
+              <FilterSection
+                title={"Plant Feature"}
+                name={"feature"}
+                toggle={togglePlantFeature}
+                showSection={showPlantFeature}
+                optionValues={plantFeature}
+                selectedValue={selectedFeature}
                 handleCheckboxChange={handleCheckboxChange}
               />
             </form>
