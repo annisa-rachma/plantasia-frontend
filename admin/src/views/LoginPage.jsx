@@ -54,10 +54,10 @@ export default function LoginPage() {
   return (
     <>
       <div className="w-full mx-auto h-[100vh] grid grid-cols-2">
-        <div className=" grid col-span-1  place-content-center">
-          <div className="text-black text-4xl font-semibold">Login</div>
+        <div className="w-[500px] col-span-2 md:col-span-1 mx-auto  place-content-center p-12">
+          <div className="text-black text-4xl font-semibold -mb-4 ">Login</div>
 
-          <form id="form-login" onSubmit={handleSubmit} className="w-1/2 mt-8">
+          <form id="form-login" onSubmit={handleSubmit} className="w-full  py-8">
             <div className="flex flex-col mt-2">
               <label className="text-black text-lg ">Email address*</label>
               <input
@@ -66,7 +66,7 @@ export default function LoginPage() {
                 name="email"
                 onChange={handleChange}
                 placeholder="Enter your email..."
-                className="w-96 h-12 pl-4 mt-1 bg-white border border-black text-black text-lg"
+                className="w-full h-12 pl-4 mt-1 bg-white border border-black text-black text-lg"
               />
             </div>
             <div className="flex flex-col mt-4">
@@ -77,10 +77,10 @@ export default function LoginPage() {
                 name="password"
                 onChange={handleChange}
                 placeholder="Enter your password..."
-                className="w-96 h-12 pl-4 mt-1 bg-white border border-black text-black text-lg"
+                className="w-full h-12 pl-4 mt-1 bg-white border border-black text-black text-lg"
               />
             </div>
-            <div className="text-black text-md mt-3 flex flex-row justify-between w-96">
+            <div className="text-black text-md mt-3 flex flex-row justify-between w-full">
               <div className="flex flex-row">
                 <div className="bg-white border border-black w-[16px] h-[16px] my-auto hover:bg-black p-1"></div>
                 <div className="ml-2">Remember me</div>
@@ -91,7 +91,7 @@ export default function LoginPage() {
                 </a>
               </div>
             </div>
-            <div className="w-96 h-12 mt-6 bg-white text-xl text-black border border-black grid content-center hover:bg-black hover:text-white">
+            <div className="w-full h-12 mt-6 bg-white text-xl text-black border border-black grid content-center hover:bg-black hover:text-white">
               <button type="submit" className="">
                 Log In
               </button>
@@ -99,11 +99,11 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <div className="col-span-1 overflow-hidden grid place-content-center">
+        <div className="col-span-1 h-[100vh] hidden md:block place-content-center">
           <img
-            src="https://www.kinfolk.com/wp-content/uploads/2023/07/Lease_on_Life.jpg"
+            src="/hero-image.jpg"
             alt=""
-            className="object-cover mb-60"
+            className="object-cover w-full h-full "
           />
         </div>
       </div>
