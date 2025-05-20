@@ -1,35 +1,12 @@
 import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
-import Categories from "../components/Categories";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/actions/actionCreator";
 import "react-loading-skeleton/dist/skeleton.css";
 import ProductCardSkeleton from "../components/ProductCardSkeleton";
 import { useSearchParams } from "react-router-dom";
-import { AiOutlineCaretDown, AiOutlineCaretUp } from "react-icons/ai";
-
-const plantType = [
-  {
-    id: 1,
-    name: "Foliage Plants",
-  },
-  {
-    id: 2,
-    name: "Palms",
-  },
-  {
-    id: 3,
-    name: "Indoor Trees",
-  },
-  {
-    id: 4,
-    name: "Ferns",
-  },
-  {
-    id: 5,
-    name: "Cacti & Succulents",
-  },
-];
+import FilterSection from "../components/FilterSection";
+import { plantHeight, plantType } from "../store/data/data";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,56 +17,57 @@ export default function Home() {
   const dispatch = useDispatch();
   const [isFiltering, setIsFiltering] = useState(false);
   const [showPlantType, setShowPlantType] = useState(true);
+  const [showPlantHeight, setShowPlantHeight] = useState(true);
+  const selectedType = searchParams.getAll("type");
+  const selectedHeight = searchParams.getAll("height");
 
   const handleCheckboxChange = (e) => {
     const value = e.target.value;
     const isChecked = e.target.checked;
+    const name = e.target.name;
 
-    const current = searchParams.getAll("type");
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    const current = newParams.getAll(name);
 
     const updated = isChecked
       ? [...new Set([...current, value])]
       : current.filter((v) => v !== value);
 
-    searchParams.delete("type");
-    updated.forEach((v) => searchParams.append("type", v));
+    newParams.delete(name);
+    updated.forEach((v) => newParams.append(name, v));
 
-    setSearchParams(searchParams);
+    setSearchParams(newParams);
   };
 
   const handleClearFilter = () => {
     setSearchParams("");
   };
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const query = searchParams.toString();
-      const queryString = query ? `?${query}` : "";
-      await dispatch(fetchProducts(queryString));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
-  }, [searchParams]);
+    const fetchAndSet = async () => {
+      try {
+        setLoading(true);
+        const query = searchParams.toString();
+        await dispatch(fetchProducts(query ? `?${query}` : ""));
+        setIsFiltering(Boolean(query));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
-    if (searchParams.toString()) {
-      setIsFiltering(true);
-    } else {
-      setIsFiltering(false);
-    }
+    fetchAndSet();
   }, [searchParams]);
 
   const togglePlantType = () => {
     setShowPlantType((prev) => !prev);
   };
-
+  const togglePlantHeight = () => {
+    setShowPlantHeight((prev) => !prev);
+  };  
+  
   return (
     <>
       <div className="grid grid-cols-4 w-[100%] left-0 right-0 mx-auto">
@@ -135,50 +113,24 @@ export default function Home() {
             </div>
 
             <form className="">
-              <div className="border-black border-b-2 py-4">
-                <div
-                  className="flex justify-between items-center hover:cursor-pointer"
-                  onClick={togglePlantType}
-                >
-                  <h1 className="text-xl font-[Kinfolk-Serif-Text]">
-                    Plant Type
-                  </h1>
-                  <span>
-                    {showPlantType ? (
-                      <AiOutlineCaretDown />
-                    ) : (
-                      <AiOutlineCaretUp />
-                    )}
-                  </span>
-                </div>
-                {showPlantType && (
-                  <div className="flex flex-col gap-1 mt-2">
-                    {plantType.map((type, idx) => {
-                      return (
-                        <div key={idx} className="flex gap-2 items-center">
-                          <input
-                            type="checkbox"
-                            id={type.id}
-                            name="type"
-                            value={type.id}
-                            checked={searchParams
-                              .getAll("type")
-                              .includes(String(type.id))}
-                            onChange={handleCheckboxChange}
-                            className="w-5 h-5  bg-black border-gray-300 focus:-ring-black-500 accent-black hover:cursor-pointer"
-                          ></input>
-                          <label
-                            htmlFor={type.id}
-                            className="hover:cursor-pointer"
-                          >
-                            {type.name}
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+              <FilterSection
+                title={"Plant Type"}
+                name={"type"}
+                toggle={togglePlantType}
+                showSection={showPlantType}
+                optionValues={plantType}
+                selectedValue={selectedType}
+                handleCheckboxChange={handleCheckboxChange}
+              />
+              <FilterSection
+                title={"Plant Height"}
+                name={"height"}
+                toggle={togglePlantHeight}
+                showSection={showPlantHeight}
+                optionValues={plantHeight}
+                selectedValue={selectedHeight}
+                handleCheckboxChange={handleCheckboxChange}
+              />
             </form>
           </div>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 md:col-span-3 gap-2">
