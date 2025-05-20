@@ -1,21 +1,3 @@
-// import { Outlet } from "react-router-dom";
-// import Sidebar from "./Sidebar";
-
-// export default function Layout() {
-//   return (
-//     <>
-//       <div className="grid grid-cols-1 md:grid-cols-6">
-//         <div className="hidden md:block md:col-span-1">
-//           <Sidebar />
-//         </div>
-//         <div className="col-span-1 md:col-span-5 p-4 md:p-12">
-//           <Outlet />
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useState } from "react";
