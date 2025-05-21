@@ -1,0 +1,28 @@
+services:
+  plantasia-client:
+    image: ghcr.io/annisa-rachma/plantasia-client:latest
+    container_name: plantasia-client
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+
+      # HTTPS router (websecure)
+      - "traefik.http.routers.plantasia-client.rule=Host(`plantasia.annisarachma.com`)"
+      - "traefik.http.routers.plantasia-client.entrypoints=websecure"
+      - "traefik.http.routers.plantasia-client.tls.certresolver=letsencrypt"
+
+      # Optional: HTTP router that redirects to HTTPS
+      - "traefik.http.routers.plantasia-client-http.rule=Host(`plantasia.annisarachma.com`)"
+      - "traefik.http.routers.plantasia-client-http.entrypoints=web"
+      - "traefik.http.routers.plantasia-client-http.middlewares=redirect-to-https"
+
+      # Define the service port (inside the container)
+      - "traefik.http.services.plantasia-client.loadbalancer.server.port=80"
+
+      # Redirect HTTP to HTTPS
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+networks:
+  traefik_network:
+    external: true
