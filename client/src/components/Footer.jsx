@@ -26,7 +26,7 @@ export default function Footer() {
 
         <div className="flex justify-center md:justify-end">
           <a href="#" className="hover:text-gray-600">
-            Website design & development by Six
+            Website mockup by Annisa
           </a>
         </div>
       </div>
